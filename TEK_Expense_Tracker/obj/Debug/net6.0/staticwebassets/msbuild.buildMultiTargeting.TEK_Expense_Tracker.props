@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TEK_Expense_Tracker.props" />
+</Project>

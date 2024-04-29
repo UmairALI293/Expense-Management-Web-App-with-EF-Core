@@ -1,0 +1,32 @@
+﻿@model IEnumerable<TEK_Expense_Tracker.Models.Expense>
+<h2>Employees</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="text-align:center">Employee</th>
+            <th style="text-align:center">Description</th>
+            <th style="text-align:center">Amount</th>
+            <th style="text-align:center">Date</th>
+            <th style="text-align:center">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td  style="text-align:center">@item.Employee.Name</td>
+                <td  style="text-align:center">@item.Description</td>
+                <td  style="text-align:center">@item.Amount</td>
+                <td  style="text-align:center">@item.Date</td>
+                <td  style="text-align:center">
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="AddEmp" class="btn btn-primary">Add Expense</a>

@@ -1,0 +1,55 @@
+﻿@model Employee
+
+<h2>Employee Expense Details</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-3">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-3">
+            @Html.DisplayNameFor(model => model.Department)
+        </dt>
+        <dd class="col-3">
+            @Html.DisplayFor(model => model.Department)
+        </dd>
+    </dl>
+</div>
+
+<div class="this">
+    <h5>Expenses</h5>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Model.Expenses)
+            {
+                <tr>
+                    <td>@expense.Description</td>
+                    <td>@expense.Amount</td>
+                    <td>@expense.Date.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index","Employee")
+</div>
+<style>
+    .this {
+        background-color: #f2f2f2; /* Change background color as needed */
+        padding: 20px; /* Add padding if necessary */
+        margin-bottom: 20px; /* Add margin if necessary */
+    }
+</style>
