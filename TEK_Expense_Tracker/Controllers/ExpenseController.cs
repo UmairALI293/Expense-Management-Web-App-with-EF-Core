@@ -19,8 +19,7 @@ namespace TEK_Expense_Tracker.Controllers
         }
         public IActionResult Details(int id)
         {
-            var employee = _context.Employees.Include(e => e.Expenses)
-.FirstOrDefault(e => e.Id == id);
+            var employee = _context.Employees.Include(e => e.Expenses).FirstOrDefault(e => e.Id == id);
 
             if (employee == null)
             {
@@ -29,7 +28,6 @@ namespace TEK_Expense_Tracker.Controllers
 
             return View(employee);
         }
-
     }
 }
 

@@ -1,0 +1,15 @@
+﻿@*@model TEK_Expense_Tracker.Models.Employee
+
+<form id="updateForm">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" name="Name" value="@Model.Name" required />
+    </div>
+    <div class="form-group">
+        <label>Department:</label>
+        <input type="text" class="form-control" name="Department" value="@Model.Department" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+*@
