@@ -3,20 +3,23 @@
 <h2>Employees</h2>
 
 <br />
-<table class="table table-striped">
-    <thead>
-        <tr> 
-            <th>Name</th>
-            <th>Department</th>
-            <th style='text-align: center;'>Action</th>
-        </tr>
-    </thead>
-    <tbody class="tbody">
-        
-    </tbody>
-</table>
+<div class="table-container" style ="overflow-x:auto">
+    <table id="employeeTable" class="table">
+        <thead>
+            <tr>
+                <th style='text-align: center;'>Name</th>
+                <th style='text-align: center;'>Department</th>            
+                <th style='text-align: center;'>Action</th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+        </tbody>
+    </table>
+</div>
+<div>
+    <button type="button" id="Add" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Employee</button>
+</div>
 
-<button type="button" id="Add" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add Employee</button>
 
 <!-- Add Employee Modal -->
 <div class="modal-body" id="AddEmployee" style="display: none;"  role="dialog">
@@ -60,42 +63,82 @@
     </div>
 </div>
 
-
 @section Scripts {
     <script>
         console.log("Script loaded");
-
-        $(document).ready(function () {
+        $('#myTable').DataTable({
+            responsive: true
+        });
+        $(document).ready(function () {                           
             // Get all employees
-            function getAllEmployees() {
-                $.ajax({
-                    type: "GET",
-                    url: "/Home/List",
-                    success: function (data) {
-                        $(".tbody").empty();
-                        $.each(data, function (index, item) {
-                            $(".tbody").append(
-                                "<tr>" +                
-                                "<td>" + item.name + "</td>" +
-                                "<td>" + item.department + "</td>" +
-                                "<td style='text-align: center;'>" +
-                                "<button type='button' class='mx-2 btn btn-info' onclick='editEmployee(" + item.id + ")'>Edit</button>" +
-                                "<button type='button' class='btn btn-danger' onclick='deleteEmployee(" + item.id + ")'>Delete</button>" + 
-                                "</td>" +
-                                "</tr>"
-                            );
-                        });
+            //function getAllEmployees() {
+            //    $.ajax({
+            //        type: "GET",
+            //        url: "/Home/List",
+            //        success: function (data) {
+            //            var table = $('#employeeTable').DataTable();
+            //            table.clear().draw(); // Clear existing rows
 
-                    }
-                });
-            }
+            //            $.each(data, function (index, item) {
+            //                table.row.add([
+            //                    // Employee name
+            //                    "<div style='text-align: center;'>" + item.name + "</div>",
+            //                    // Employee department
+            //                    "<div style='text-align: center;'>" + item.department + "</div>",
+                              
+            //                    // Action buttons for editing and deleting an employee
+                              
+            //                    "<div style='text-align: center;'>" +
+            //                    "<button type='button' class='mx-2 btn btn-info' onclick='editEmployee(" + item.id + ")'>Edit</button>" +
+            //                    "<button type='button' class='btn btn-danger' onclick='deleteEmployee(" + item.id + ")'>Delete</button>" +
+            //                    "</div>"
+            //                ]).draw(); // Draw the new row on the table
+            //            });
+            //        }
+            //    });
+            //}
 
-            console.log("Document ready");
+            //// Call the function to populate the DataTable
+            //getAllEmployees();
+            //$('#employeeTable').DataTable();
 
-            getAllEmployees();
+            $(document).ready(function () {
+                // Get all employees
+                function getAllEmployees() {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Home/List",
+                        success: function (data) {
+                            var table = $('#employeeTable').DataTable({
+                                responsive: true,
+                                data: data,
+                                scrollY: 350, // Set the height for vertical scrolling
+                                columns: [
+                                    { data: "name", className: "text-center" },
+                                    { data: "department", className: "text-center" },
+                                    {
+                                        data: null,className: "text-center",
+                                        render: function (data, type, row) {
+                                            return '<button type="button" class="mx-2 btn btn-info" onclick="editEmployee(' + row.id + ')">Edit</button>' +
+                                                '<button type="button" class="btn btn-danger" onclick="deleteEmployee(' + row.id + ')">Delete</button>';
+                                        }
+                                    }
+                                ]
+                            });
+                        }
+                    });
+                }
+
+                // Call the function to populate the DataTable
+                getAllEmployees();
+            });
+
+
+     
+      
 
             // Add employee
-            $(document).ready(function () {
+            
                 $("#Add").click(function () {
                     $("#AddEmployee").slideToggle();
                 });
@@ -135,7 +178,7 @@
                     }
                     
                 });
-            });
+            
 
 
             // Get employee by id
@@ -206,7 +249,6 @@
                     }
                 });
             }
-
         });
     </script>
 }
